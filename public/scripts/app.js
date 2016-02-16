@@ -122,8 +122,8 @@ function HomeController ($http) {
     });
 }
 
-LoginController.$inject = ["Account"]; // minification protection
-function LoginController (Account) {
+LoginController.$inject = ["Account", "$location"]; // minification protection
+function LoginController (Account, $location) {
   var vm = this;
   vm.new_user = {}; // form data
 
@@ -131,8 +131,11 @@ function LoginController (Account) {
     Account
       .login(vm.new_user)
       .then(function(){
-         // TODO #4: clear sign up form
-         // TODO #5: redirect to '/profile'
+         // COMPLETED TODO #4: clear sign up form
+         vm.new_user = {};
+         // COMPLETED TODO #5: redirect to '/profile'
+         $location.path("/profile");
+
       })
   };
 }
@@ -154,10 +157,11 @@ function SignupController () {
   };
 }
 
-LogoutController.$inject = ["Account"]; // minification protection
-function LogoutController (Account) {
-  Account.logout()
+LogoutController.$inject = ["Account", "$location"]; // minification protection
+function LogoutController (Account, $location) {
+  Account.logout();
   // TODO #7: when the logout succeeds, redirect to the login page
+  $location.path('/login');
 }
 
 
@@ -199,10 +203,11 @@ function Account($http, $q, $auth) {
   function login(userData) {
     return (
       $auth
-        .satellizerLogin(userData) // login (https://github.com/sahat/satellizer#authloginuser-options)
+        .login(userData) // login (https://github.com/sahat/satellizer#authloginuser-options)
         .then(
           function onSuccess(response) {
-            //TODO #3: set token (https://github.com/sahat/satellizer#authsettokentoken)
+            //COMPLETED TODO #3: set token (https://github.com/sahat/satellizer#authsettokentoken)
+            $auth.setToken(response.data);
           },
 
           function onError(error) {
@@ -213,8 +218,15 @@ function Account($http, $q, $auth) {
   }
 
   function logout() {
+    return (
+      $auth
+        .logout()
+        .then(function () {
+          self.user = null;
+        })
+    );
     // returns a promise!!!
-    // TODO #6: logout the user by removing their jwt token (using satellizer)
+    // COMPLETED TODO #6: logout the user by removing their jwt token (using satellizer)
     // Make sure to also wipe the user's data from the application:
     // self.user = null;
     // returns a promise!!!
