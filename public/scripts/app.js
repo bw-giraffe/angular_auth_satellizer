@@ -140,8 +140,8 @@ function LoginController (Account, $location) {
   };
 }
 
-SignupController.$inject = []; // minification protection
-function SignupController () {
+SignupController.$inject = ["Account", "$location"]; // minification protection
+function SignupController (Account, $location) {
   var vm = this;
   vm.new_user = {}; // form data
 
@@ -151,7 +151,9 @@ function SignupController () {
       .then(
         function (response) {
           // TODO #9: clear sign up form
+          vm.new_user = {};
           // TODO #10: redirect to '/profile'
+          $location.path("/profile");
         }
       );
   };
@@ -193,11 +195,17 @@ function Account($http, $q, $auth) {
   self.updateProfile = updateProfile;
 
   function signup(userData) {
-    // return (
-    //   // TODO #8: signup (https://github.com/sahat/satellizer#authsignupuser-options)
-    //   // then, set the token (https://github.com/sahat/satellizer#authsettokentoken)
-    //   // returns a promise
-    // );
+    return (
+      // TODO #8: signup (https://github.com/sahat/satellizer#authsignupuser-options)
+      // then, set the token (https://github.com/sahat/satellizer#authsettokentoken)
+      $auth
+        .signup(userData)
+        .then(
+          function onSuccess(response){
+            login(userData);
+          })
+      // returns a promise
+    );
   }
 
   function login(userData) {
