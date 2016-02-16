@@ -1,6 +1,6 @@
 angular
   .module('AuthSampleApp', [
-    'ui.router'
+    'ui.router', 'satellizer'
     // TODO #2: Add satellizer module
   ])
   .controller('MainController', MainController)
@@ -189,11 +189,11 @@ function Account($http, $q, $auth) {
   self.updateProfile = updateProfile;
 
   function signup(userData) {
-    return (
-      // TODO #8: signup (https://github.com/sahat/satellizer#authsignupuser-options)
-      // then, set the token (https://github.com/sahat/satellizer#authsettokentoken)
-      // returns a promise
-    );
+    // return (
+    //   // TODO #8: signup (https://github.com/sahat/satellizer#authsignupuser-options)
+    //   // then, set the token (https://github.com/sahat/satellizer#authsettokentoken)
+    //   // returns a promise
+    // );
   }
 
   function login(userData) {
