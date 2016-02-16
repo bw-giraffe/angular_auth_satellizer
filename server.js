@@ -24,7 +24,7 @@ mongoose.connect('mongodb://localhost/angular_auth');
 
 // require User and Post models
 var User = require('./models/user');
-var Post = require('./models/post');
+// var Post = require('./models/post');
 
 
 /*
@@ -115,6 +115,6 @@ app.get(['/', '/signup', '/login', '/profile'], function (req, res) {
 /*
  * Listen on localhost:3000
  */
-app.listen(9000, function() {
+app.listen(3000, function() {
   console.log('server started');
 });
